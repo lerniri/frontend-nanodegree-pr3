@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Effective JavaScript: Frogger</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+	<section id="wrapper" class="cf">
+
+
+		<section id="game-scores" >
+			<h1>Game Score: <span id="gamescore">0</span></h1>
+			<h2>Gems: <span id="gemsscore">0</span></h2>
+		</section>
+
+		<section id="gamedata" class="cf">
+			<div id="game-settings-div">
+				<div id="general-settings">
+					<h4>Game Settings</h4>
+					<div class="setting">
+					<!-- Difficulty -->
+
+						<h5>Difficulty</h5>
+						<input type="radio" name="difficulty" value="easy" checked="checked"> Easy
+						<input type="radio" name="difficulty" value="medium"> Medium
+						<input type="radio" name="difficulty" value="hard"> Are you nuts ???
+					</div>
+
+					<div class="setting">
+					<!-- Collect Gems -->
+
+						<h5>Collect Gems</h5>
+						<input type="radio" name="collect-gems" value="true"> Yes
+						<input type="radio" name="collect-gems" value="false" checked="checked"> No
+					</div>
+
+					<div class="setting">
+					<!-- Make Game Harder -->
+
+						<h5>Difficulty Increase</h5>
+						<input type="radio" name="increase-difficulty" value="true"> Yes
+						<input type="radio" name="increase-difficulty" value="false" checked="checked"> No
+					</div>
+
+					<div class="setting">
+					<!-- Sound -->
+
+						<h5>Sound</h5>
+						<input type="radio" name="sound" value="false" checked="checked"> Off
+						<input type="radio" name="sound" value="true"> On
+					</div>
+
+				</div>
+
+				<div id="choose-player">
+					<h4>Choose Player</h4>
+					<ul id="players">
+						<li class="player-selected"><img src="images/char-boy.png"></li>
+						<li><img src="images/char-cat-girl.png"></li>
+						<li><img src="images/char-horn-girl.png"></li>
+						<li><img src="images/char-princess-girl.png"></li>
+					</ul>
+				</div> <!-- Choose Character -->
+
+			</div>
+		</section>
+
+		<section id="game-board">
+
+		</section>
+
+	</section>
+
+    <script src="js/resources.js"></script>
+    <script src="js/engine.js"></script>
+    <script src="js/app.js"></script>
+
+
+</body>
+</html>

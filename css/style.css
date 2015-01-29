@@ -1,0 +1,127 @@
+/******** Reset default margin and padding *******/
+* {
+	margin: 0;
+	padding:0;
+}
+
+
+body {
+    background-color: rgb(95, 91, 91);
+   color:rgb(224, 223, 223);
+    font-family: "Verdana", sans-serif;
+}
+
+
+h1 {
+	font-size:1.4em;
+}
+
+
+h2 {
+	font-size: 1.3em;
+}
+
+
+h3 {
+	font-size: 1.1em;
+}
+
+
+h4 {
+	text-align: center;
+	text-decoration: underline;
+}
+
+
+#wrapper {
+	width:1000px;
+	margin:auto;
+}
+
+
+#game-scores {
+	height:30px;
+	text-align: right;
+}
+
+
+#gamedata {
+	float:left;
+	margin-top:10px;
+}
+
+
+#game-board {
+	float:right;
+}
+
+
+#game-settings-div {
+	clear:both;
+	height:515px;
+	margin-top:40px;
+	padding:10px 15px;
+	-webkit-box-shadow: inset 0px 0px 6px 5px rgba(74,74,74,1);
+	-moz-box-shadow: inset 0px 0px 6px 5px rgba(74,74,74,1);
+	box-shadow: inset 0px 0px 6px 5px rgba(74,74,74,1);
+}
+
+
+#game-settings-div h2 {
+	text-align: center;
+	color:rgb(224, 223, 223);
+}
+
+.setting {
+	margin-bottom: 30px;
+}
+
+
+#general-settings {
+	height:250px;
+	padding:10px;
+}
+
+
+#general-settings h4 {
+	margin-bottom: 20px;
+
+}
+
+
+#players {
+	list-style-type: none;
+}
+
+
+#players li {
+	display: inline-block;
+	position: relative;
+
+}
+
+
+#players li:hover {
+	cursor: pointer;
+}
+
+
+.player-selected  {
+	top: -10px;
+}
+
+
+/*************** Utils *****************/
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+.hidden {
+	visibility: hidden;
+}
