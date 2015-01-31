@@ -10,10 +10,10 @@
 <h4>Game Settings</h4>
 
 <h5><i>Difficulty<i></h5>
-<p>Game difficulty - enemies count and base speed</p>
-<p>Easy: (default) 3 enemies, 100 px base speed.</p>
-<p>Medium: 4 enemies, 120 px base speed </p>
-<p>Are you nuts???: 5 enemies, 150 px base speed </p>
+<p>Game difficulty - enemies count and base speed variations</p>
+<p><strong>Easy:</strong> (default) 3 enemies, 100 px base speed.</p>
+<p><strong>Medium:</strong> 4 enemies, 120 px base speed </p>
+<p><strong>Are you nuts???:</strong> 5 enemies, 150 px base speed </p>
 
 <h5><i>Increase game difficulty<i></h5> 
 
