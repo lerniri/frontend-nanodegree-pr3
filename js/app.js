@@ -2,112 +2,57 @@
  *              Game Object Definition
  *********************************************************/
 
- /* Game constructor
+ /* Constructor
  *
  *
  */
 var Game = function() {
-    // Game general variables
-    this.boundaries             = [0, 0, 505, 555]; //canvas boundaries
-    this.activeBoard            = [0, 50, 505, 300]; //active board boundaries
-    this.gameScore              = 0;  //total score of player reached the water
-    this.gemsScore              = 0;  //count of gems collected during the game
-    this.scoreWithNoCollisions  = 0; //score made with no collisions
-    this.diffIncreaseScore      = 5; //score count that triggers level increase
+    /* List of predefined variables that
+     * will be used within Game scope
+     *
+     * Game general variables
+     */
+    this.boundaries             = [0, 0, 505, 555]; //game board boundaries, used to keep player within;
+    this.activeBoard            = [0, 50, 505, 300]; //active board boundaries - part of the board with enemies paths;
+    this.gameScore              = 0;  //total score of player reached the water;
+    this.gemsScore              = 0;  //count of gems player collected during the game;
+    this.scoreWithNoCollisions  = 0; //water reaches made with no collisions, resets to 0 after each collide;
+    this.diffIncreaseScore      = 5; //max score count that triggers game difficulty increase
 
     this.activeBoardYPaths      = [60, 145, 230]; // Y axis coordinates on active part of the board;
 
     // Enemy Variables
     this.numEnemies             = 3;  //number of enemies
-    this.allEnemies             = []; //array with enemy objects
-    this.enemyPos               = [-50, 50]; //enemy initial position x,y
+    this.allEnemies             = []; //array containing  enemy objects instances
+    this.enemyPos               = [-50, 50]; //enemy starting x,y position
 
     this.enemySpeed             = 100; //enemy default speed in px
-    this.spdUp                  = 1;  //enemy speed factor - should be increased (TODO How ?? )
+    this.spdUp                  = 1;  //enemy speed factor - starts from 1 and increases per .3 each time difficulty increases.
 
     // Player Variables
-    this.playerXSpeed           = 100; //player step on X axis in px
-    this.playerYSpeed           = 90;  //player step on Y axis in px
+    this.playerXSpeed           = 100; //player speed on X axis in px
+    this.playerYSpeed           = 90;  //player speed on Y axis in px
 
     //Gems Variables
-    this.numGems                = 2; //number of gems on the board;s
-    this.allGems                = [];
+    this.numGems                = 2;  //number of gems on the board;
+    this.allGems                = []; //array containing gem object instances
 
-    //DOM objects
+    //DOM
     this.playersList            = document.getElementById("players").children; //list of available player characters (HTMLCollection of li)
     this.settingInputs          = document.getElementsByTagName("input"); //List of game settings (HTMLCollection of inputs)
 }
 
 
-
-/* Initiate player object and related functions
- *
- *
- */
-Game.prototype.initPlayer = function() {
-    this.player = new Player;
-
-    // This listens for key presses and sends the keys to your
-    // Player.handleInput() method. You don't need to modify this.
-    document.addEventListener('keydown', function(e) {
-        var allowedKeys = {
-            37: 'left',
-            38: 'up',
-            39: 'right',
-            40: 'down'
-        };
-        Game.player.handleInput(allowedKeys[e.keyCode]);
-    });
-
-    //Listens for click on player character and performs main player change
-    for (i=0;i<this.playersList.length;i++) {
-        this.playersList[i].addEventListener("click"  , function(e) {
-
-            // change player sprite to choosen one
-            Game.player.sprite = this.querySelector("img").attributes.src.value;
-
-            // toggle class selected on choosen player
-            document.querySelector(".player-selected").className = "";
-            this.className = "player-selected";
-        });
-    }
-}
-
-
-/* Initiate enemies method.
- *
+/* initGame method :
+ *  - loads and applies game settings
+ *  - assigns event listeners on page elements
  *
  */
-Game.prototype.initEnemies = function() {
 
-    for (i=1; i <=this.numEnemies; i++) {
-        this.allEnemies.push(new Enemy);
-    }
-}
+Game.prototype.initGame = function() {
 
-
-/* Initiate enemies method.
- *
- *
- */
-Game.prototype.initGems = function() {
-
-    for (i=1; i <=this.numGems; i++) {
-        this.allGems.push(new Gem);
-    }
-}
-
-
-
-
-/* Initiate game settings method
- *
- *
- */
-Game.prototype.initSettings = function() {
-
-
-    /* Below code is aimed to run through settings inputs and record initial values
+    /* Below code is aimed to run through game settings and record initial
+     * values to Game properties
      *
      */
     var difficultyInputs = document.getElementsByName("difficulty");
@@ -139,8 +84,9 @@ Game.prototype.initSettings = function() {
         }
     }
 
-    /* Bind function on radio button click event
-    *  Function is aimed to check game settings depending on radio button clicked
+
+    /* Bind function on settings radio button click event.
+    *  Function is aimed to change game settings according to changed setting;
     */
     for (i=0;i<this.settingInputs.length;i++) {
         this.settingInputs[i].addEventListener("click", function(e) {
@@ -161,31 +107,115 @@ Game.prototype.initSettings = function() {
             Game.applySettings();
         });
     }
+
+    /* Bind function listening keypress event on  'H', 'h', 'X', 'x' to show/close Help dialog
+     *
+     */
+    document.addEventListener('keypress', function(e) {
+
+        //if H or h key  pressed open show help dialog
+        if (e.charCode === 104 || e.charCode === 72) {
+
+            document.getElementById("help").style.visibility = "visible";
+
+         // if X or x key pressed hide help dialog
+        } else if (e.charCode === 88 || e.charCode === 120  ) {
+            document.getElementById("help").style.visibility = "hidden";
+        }
+
+    })
+
+}
+/* initPlayer method:
+ *  - creates player instance
+ *  - implements player movement
+ *  - implements player character change
+ */
+Game.prototype.initPlayer = function() {
+    this.player = new Player;
+
+    /* This listens for key presses and sends the keys to your
+     * Player.handleInput() method. You don't need to modify this.
+     */
+    document.addEventListener('keydown', function(e) {
+        var allowedKeys = {
+            37: 'left',
+            38: 'up',
+            39: 'right',
+            40: 'down'
+        };
+        Game.player.handleInput(allowedKeys[e.keyCode]);
+    });
+
+
+    /* Function listens for click event on characters and performs main player change
+     *
+     */
+    for (i=0;i<this.playersList.length;i++) {
+        this.playersList[i].addEventListener("click"  , function(e) {
+
+            // change player sprite to clicked character
+            Game.player.sprite = this.querySelector("img").attributes.src.value;
+
+            // toggle class selected on clicked character
+            document.querySelector(".player-selected").className = "";
+            this.className = "player-selected";
+        });
+    }
 }
 
-/* Update game
- *
+
+/* initEnemies method:
+ *  - creates enemy instances and loads them into allEnemies array.
+ *    Cound of enemies is defined in  property numEnemies
+ */
+Game.prototype.initEnemies = function() {
+
+    //Fill enemies array with enemy instances
+    for (i=1; i <=this.numEnemies; i++) {
+        this.allEnemies.push(new Enemy);
+    }
+}
+
+
+/* initGems method:
+ *  - creates gems instances and loads them into allGems array.
+ *    Cound of enemies is defined in  property numGems
+ */
+Game.prototype.initGems = function() {
+
+    //Fill gems array with gem instances;
+    for (i=1; i <=this.numGems; i++) {
+        this.allGems.push(new Gem);
+    }
+}
+
+
+/* update method:
+ *  - controls game difficulty growth depending on player score
  *
  */
  Game.prototype.update = function() {
-    //check whether  user reached water 20 times w/o collisions and decrease speed;
+    //check whether user reached water this.scoreWithNoCollisions times , increase game difficulty;
     if (Game.difficultyGrowth === "true") {
         if ( this.scoreWithNoCollisions === this.diffIncreaseScore) {
+            //reset counter
             this.scoreWithNoCollisions = 0;
+            //increase number of Bugs
             this.numEnemies++;
+            //increase speed factor (increases Enemy speed)
             this.spdUp +=0.3;
         }
     }
  }
 
 
-/* Apply settings to game
- *
+/* applySettings method:
+ *  - changes game in according to chosen settings;
  *
  */
 Game.prototype.applySettings = function() {
 
-    //Apply difficulty level settings
     switch (this.gameDifficulty) {
         case "easy":
             this.numEnemies = 3;
@@ -199,20 +229,22 @@ Game.prototype.applySettings = function() {
             this.numEnemies = 5;
             this.enemySpeed = 150;
     }
-    //re-initialize enemies
+
+    //re-initialize enemies count
     this.updateEnemiesCount();
 
 
-    //Apply Collect Gems Settings
+    //in case collect gems mode has been enabled, initiate Gems objects
     if (this.collectGems === "true") {
         this.initGems();
-    } else {
+    } else { //in case collect gems mode has been disabled, destroy Gems objects
         this.allGems = [];
         this.gemsScore = 0;
         this.updateGemScore();
 
     }
 
+    //in case difficulty growth mode has been switch off reset game to its inital settings
     if (this.difficultyGrowth === "false") {
         this.scoreWithNoCollisions = 0;
         this.numEnemies = 3;
@@ -221,12 +253,16 @@ Game.prototype.applySettings = function() {
 
 }
 
-/* Increase/Decrease Enemies count depending on Game settings
- *
+/* updateEnemiesCount method:
+ *  - manages enemies instances count ;
  *
  */
 Game.prototype.updateEnemiesCount = function() {
 
+    /* Check whether current number of enemies is different from defined number in game settings (numEnemies)
+     * if > then remove number of enemies
+     * if < then add number of enemies
+     */
     var delta = this.numEnemies - this.allEnemies.length;
 
     if (delta > 0) {
@@ -240,9 +276,9 @@ Game.prototype.updateEnemiesCount = function() {
     }
 }
 
-/* Checks whether enemy item goes off the edge of the canvas
- * and if so, returns it to original position.
- *
+/* checkEnemyBoundaries method:
+ *  Checks whether enemy item goes off the edge of the canvas
+ *  and if so, returns it to original position.
  *
  */
 Game.prototype.checkEnemyBoundaries = function(enemy) {
@@ -251,12 +287,13 @@ Game.prototype.checkEnemyBoundaries = function(enemy) {
     }
 }
 
-/* Controls whether player pos goes off the canvas
- *
+/* checkPlayerBoundaries method:
+ *  - ensures that player stays within canvas;
  *
  *
  */
 Game.prototype.checkPlayerBoundaries = function(player) {
+
 
     if ( player.x < this.boundaries[0] ) {
         player.x = this.boundaries[0]
@@ -272,14 +309,13 @@ Game.prototype.checkPlayerBoundaries = function(player) {
     };
 }
 
-/* Checks whether player reached the water blocks and if so, returns it to the initial pos. + adding a score
+/* checkReachedWater method:
+ *  - controls states when player reaches water;
  *
- *
- *
+ * Checks whether player reached the water blocks and if so, returns it to the initial pos. + increases score
  */
 Game.prototype.checkReachedWater = function(player) {
    if (player.y === this.boundaries[1]) {
-
         this.updateScore(1);
         this.scoreWithNoCollisions++;
         player.reset();
@@ -287,10 +323,11 @@ Game.prototype.checkReachedWater = function(player) {
 }
 
 
-/* Checks whether player collides with the enemy items and if so, returns player to initial pos
+/* checkCollisions method:
+ *  - controls player collisions with enemies and gems
  *
- *
- *
+ * isEnemy - boolean value pointing whether obj is enemy
+ * isGem  - boolean value pointing whether obj is gem
  */
 Game.prototype.checkCollisions = function(obj, isEnemy, isGem) {
     if (Math.abs(this.player.x - obj.x) < this.player.width/2 && Math.abs(this.player.y - obj.y) < 50) {
@@ -309,8 +346,8 @@ Game.prototype.checkCollisions = function(obj, isEnemy, isGem) {
 }
 
 
-/* Update game score
- *
+/* updateScore method:
+ *  - updates game score
  *
  *
  */
@@ -321,8 +358,8 @@ Game.prototype.updateScore = function(delta) {
     document.getElementById("gamescore").innerHTML = this.gameScore;
 }
 
-/* Update gem score
- *
+/* updateGemScore method:
+ *  - updates gems score
  *
  *
  */
@@ -340,7 +377,7 @@ Game.prototype.updateGemScore = function() {
  *              Gems Object Definition
  *********************************************************/
 
-/* Gem object constructor
+/* Constructor
  *
  *
  *
@@ -354,8 +391,8 @@ Game.prototype.updateGemScore = function() {
     this.y = Game.activeBoardYPaths[Math.floor((Math.random()*3))];
  }
 
-/* Gem render method
- *
+/* render method:
+ *  - draws gems on canvas
  *
  *
  */
@@ -363,25 +400,22 @@ Game.prototype.updateGemScore = function() {
      ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
  }
 
-/* Gem update method
- *
- *
+/* update method:
+ *  - checks collisions;
+ *  - re-creates gems in case all were collected;
  *
  */
  Gem.prototype.update = function() {
 
-
     Game.checkCollisions(this, false, true);
-
     //re-draw gems in case all are collected
     if (Game.allGems.length <=0) {
         Game.initGems();
     }
-
  }
 
- /* Gem destroy method
- *
+ /* destroy method:
+ *  - removes specific gem from the scene;
  *
  *
  */
@@ -400,7 +434,7 @@ Game.prototype.updateGemScore = function() {
 /*********************************************************
  *              Enemy Object Definition
  *********************************************************/
- /* Enemy object constructor
+ /* Constructor
  *
  *
  *
@@ -423,9 +457,10 @@ var Enemy = function() {
     this.sprite = 'images/enemy-bug.png';
 }
 
-/*  Update the enemy's position, required method for game
+
+/*  update method:
+ *  Update the enemy's position, required method for game
  *  Parameter: dt, a time delta between ticks
- *
  */
 Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
@@ -438,9 +473,9 @@ Enemy.prototype.update = function(dt) {
 
 }
 
-/* Draw the enemy on the screen, required method for game
+/* render method:
  *
- *
+ * Draw the enemy on the screen, required method for game
  *
  */
 Enemy.prototype.render = function() {
@@ -448,9 +483,9 @@ Enemy.prototype.render = function() {
 }
 
 
-/* Reset enemy function
+/* reset method:
  *
- *
+ * Reset enemy function
  *
  */
 Enemy.prototype.reset = function() {
@@ -489,9 +524,9 @@ var Player = function() {
 }
 
 
-/* Player handleInput method
+/* handleInput method:
  *
- *
+ *  - handle key pressed and update player position on canvas
  *
  */
 Player.prototype.handleInput = function(key) {
@@ -512,9 +547,9 @@ Player.prototype.handleInput = function(key) {
 }
 
 
-/* Player reset method
+/* reset method:
  *
- *
+ *  - set player position to initial
  *
  */
 Player.prototype.reset = function() {
@@ -523,10 +558,10 @@ Player.prototype.reset = function() {
 }
 
 
-/* Player update method
+/* update method:
  *
- *
- *
+ *  - check player goes off boundaries
+ *  - check player reaches water
  */
 Player.prototype.update = function() {
     Game.checkPlayerBoundaries(this);
@@ -534,9 +569,9 @@ Player.prototype.update = function() {
 }
 
 
-/* PLayer render method
+/* render method:
  *
- *
+ *  - re-draw player on canvas
  *
  */
 Player.prototype.render = function() {
@@ -554,7 +589,7 @@ Player.prototype.render = function() {
  *********************************************************/
 //Init Game
 var Game = new Game();
-Game.initSettings();
+Game.initGame();
 Game.initPlayer();
 Game.initEnemies();
 
@@ -566,26 +601,3 @@ if (Game.collectGems === "true") {
  *              INIT END
  *********************************************************/
 
-
-/*********************************************************
- *              Utility Functions
- *********************************************************/
-clickLocations = [];
-
-function logClicks(x,y) {
-  clickLocations.push(
-    {
-      x: x,
-      y: y
-    }
-  );
-  console.log('x location: ' + x + '; y location: ' + y);
-}
-
-document.onclick = function(loc) {
-  // your code goes here!
-  logClicks(loc.layerX, loc.layerY);
-};
-/*********************************************************
- *              Utility Functions END
- *********************************************************/

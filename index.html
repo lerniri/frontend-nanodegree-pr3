@@ -6,19 +6,21 @@
 </head>
 <body>
 
+	<!-- page wrapper -->
 	<section id="wrapper" class="cf">
-
-
+		<!-- Game scores section -->
 		<section id="game-scores" >
 			<h1>Game Score: <span id="gamescore">0</span></h1>
 			<h2>Gems: <span id="gemsscore">0</span></h2>
-		</section>
+		</section> <!-- Game scores section end -->
 
+		<!-- Game settings section-->
 		<section id="gamedata" class="cf">
+			<h3>Press <span class="yellow">H</span> for help</h3>
 			<div id="game-settings-div">
 				<div id="general-settings">
 					<h4>Game Settings</h4>
-					<div class="setting">
+					<div title="Choose difficulty level" class="setting">
 					<!-- Difficulty -->
 
 						<h5>Difficulty</h5>
@@ -27,33 +29,24 @@
 						<input type="radio" name="difficulty" value="hard"> Are you nuts ???
 					</div>
 
-					<div class="setting">
+					<div title="When Yes, game difficulty will grow after you reach particular score " class="setting">
+
+						<h5>Increase game difficulty</h5>
+						<input type="radio" name="increase-difficulty" value="true"> Yes
+						<input type="radio" name="increase-difficulty" value="false" checked="checked"> No
+					</div>
+
+					<div title="Choose whether player should collect gems" class="setting">
 					<!-- Collect Gems -->
 
 						<h5>Collect Gems</h5>
 						<input type="radio" name="collect-gems" value="true"> Yes
 						<input type="radio" name="collect-gems" value="false" checked="checked"> No
 					</div>
-
-					<div class="setting">
-					<!-- Make Game Harder -->
-
-						<h5>Difficulty Increase</h5>
-						<input type="radio" name="increase-difficulty" value="true"> Yes
-						<input type="radio" name="increase-difficulty" value="false" checked="checked"> No
-					</div>
-
-					<div class="setting">
-					<!-- Sound -->
-
-						<h5>Sound</h5>
-						<input type="radio" name="sound" value="false" checked="checked"> Off
-						<input type="radio" name="sound" value="true"> On
-					</div>
-
 				</div>
 
-				<div id="choose-player">
+				<!-- Choose player character section -->
+				<div title="Click icon to choose your player" id="choose-player">
 					<h4>Choose Player</h4>
 					<ul id="players">
 						<li class="player-selected"><img src="images/char-boy.png"></li>
@@ -61,16 +54,29 @@
 						<li><img src="images/char-horn-girl.png"></li>
 						<li><img src="images/char-princess-girl.png"></li>
 					</ul>
-				</div> <!-- Choose Character -->
+				</div> <!-- Choose player character section END -->
 
 			</div>
-		</section>
+		</section> <!-- Game data END -->
 
+		<!-- Canvas section -->
 		<section id="game-board">
+		</section> <!-- Canvas section END -->
 
-		</section>
+		<!-- Help section -->
+		<section id="help">
+			<h1 class="yellow">Help</h1>
+			<p>Your task is to reach the water and not collide with the bugs.</p>
+			<br>
+			<p>If collided , your score will be decremented and you'll be placed to initial position</p>
+			<br>
+			<p>Feeling  bored ?  Switch ON  Collect Gems mode and have fun collecting stuff</p>
+			<br>
+			<p>Use ARROW keys to move your player and <span class="yellow">GOOD LUCK!<span></p>
+			<h5>Press X to close</h5>
+		</section> <!-- Help section END -->
 
-	</section>
+	</section> <!-- Page wrapper END -->
 
     <script src="js/resources.js"></script>
     <script src="js/engine.js"></script>

@@ -2,6 +2,7 @@
 * {
 	margin: 0;
 	padding:0;
+	box-sizing: border-box;
 }
 
 
@@ -59,7 +60,7 @@ h4 {
 #game-settings-div {
 	clear:both;
 	height:515px;
-	margin-top:40px;
+	margin-top:20px;
 	padding:10px 15px;
 	-webkit-box-shadow: inset 0px 0px 6px 5px rgba(74,74,74,1);
 	-moz-box-shadow: inset 0px 0px 6px 5px rgba(74,74,74,1);
@@ -72,8 +73,50 @@ h4 {
 	color:rgb(224, 223, 223);
 }
 
+
+#help {
+	position:absolute;
+	width:600px;
+	height:395px;
+	border-radius: 5px;
+	border: 2px solid rgb(42, 41, 41);
+	left: 30%;
+  	top: 170px;
+  	background-color: rgb(66, 64, 64);
+  	padding:20px;
+  	-webkit-box-shadow: 0px 0px 90px 10px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 0px 90px 10px rgba(0,0,0,0.75);
+	box-shadow: 0px 0px 90px 10px rgba(0,0,0,0.75);
+	visibility: hidden;
+}
+
+
+#help h1 {
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+
+
+#help p {
+	font-size:1.2em;
+}
+
+
+
+#help h5 {
+	margin-top: 30px;
+	text-align: right;
+}
+
+
 .setting {
 	margin-bottom: 30px;
+}
+
+
+.setting h5 {
+	margin-bottom: 10px;
 }
 
 
@@ -85,7 +128,6 @@ h4 {
 
 #general-settings h4 {
 	margin-bottom: 20px;
-
 }
 
 
@@ -97,7 +139,6 @@ h4 {
 #players li {
 	display: inline-block;
 	position: relative;
-
 }
 
 
@@ -118,10 +159,17 @@ h4 {
     display: table; /* 2 */
 }
 
+
 .cf:after {
     clear: both;
 }
 
+
 .hidden {
 	visibility: hidden;
+}
+
+
+.yellow {
+	color:yellow;
 }
