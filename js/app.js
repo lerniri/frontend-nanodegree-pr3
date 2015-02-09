@@ -59,7 +59,6 @@ Game.prototype.initGame = function() {
     for (i=0;i<difficultyInputs.length;i++) {
         if (difficultyInputs[i].checked == true) {
             this.gameDifficulty = difficultyInputs[i].value;
-
         }
     }
 
@@ -123,7 +122,7 @@ Game.prototype.initGame = function() {
             document.getElementById("help").style.visibility = "hidden";
         }
 
-    })
+    });
 
 }
 /* initPlayer method:
@@ -293,20 +292,19 @@ Game.prototype.checkEnemyBoundaries = function(enemy) {
  *
  */
 Game.prototype.checkPlayerBoundaries = function(player) {
-
-
+ 
     if ( player.x < this.boundaries[0] ) {
         player.x = this.boundaries[0]
     } else if ( player.x > this.boundaries[2] - player.width ) {
         player.x = this.boundaries[2] - player.width;
-    };
+    }
 
     if ( player.y < this.boundaries[1] ) {
         player.y = this.boundaries[1]
     } else if ( player.y > this.boundaries[3] - player.height ) {
         player.y = this.boundaries[3] - player.height;
 
-    };
+    }
 }
 
 /* checkReachedWater method:
