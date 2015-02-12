@@ -1,4 +1,4 @@
-<h2>Changes after evaluation</h2>
+<h5>changes after evaluation</h5>
 
 * Added  code to remove focus from  radio inputs after click;
 * Fixed code quality issues found by jshint;
