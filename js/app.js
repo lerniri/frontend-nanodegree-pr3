@@ -40,7 +40,7 @@ var Game = function() {
     //DOM
     this.playersList            = document.getElementById("players").children; //list of available player characters (HTMLCollection of li)
     this.settingInputs          = document.getElementsByTagName("input"); //List of game settings (HTMLCollection of inputs)
-}
+};
 
 
 /* initGame method :
@@ -55,30 +55,31 @@ Game.prototype.initGame = function() {
      * values to Game properties
      *
      */
+    var i = 0;
     var difficultyInputs = document.getElementsByName("difficulty");
     for (i=0;i<difficultyInputs.length;i++) {
-        if (difficultyInputs[i].checked == true) {
+        if (difficultyInputs[i].checked === true) {
             this.gameDifficulty = difficultyInputs[i].value;
         }
     }
 
     var collectGemsInputs = document.getElementsByName("collect-gems");
     for (i=0;i<collectGemsInputs.length;i++) {
-        if (collectGemsInputs[i].checked == true) {
+        if (collectGemsInputs[i].checked === true) {
             this.collectGems = collectGemsInputs[i].value;
         }
     }
 
     var difficultyGrowthInputs = document.getElementsByName("increase-difficulty");
     for (i=0;i<difficultyGrowthInputs.length;i++) {
-        if (difficultyGrowthInputs[i].checked == true) {
+        if (difficultyGrowthInputs[i].checked === true) {
             this.difficultyGrowth = difficultyGrowthInputs[i].value;
         }
     }
 
     var soundInputs = document.getElementsByName("sound");
     for (i=0;i<soundInputs.length;i++) {
-        if (soundInputs[i].checked == true) {
+        if (soundInputs[i].checked === true) {
             this.soundEnabled = soundInputs[i].value;
         }
     }
@@ -88,7 +89,7 @@ Game.prototype.initGame = function() {
     *  Function is aimed to change game settings according to changed setting;
     */
     for (i=0;i<this.settingInputs.length;i++) {
-        this.settingInputs[i].addEventListener("click", function(e) {
+        this.settingInputs[i].addEventListener("click", function() {
             switch (this.name)   {
                 case "difficulty":
                     Game.gameDifficulty = this.value;
@@ -104,6 +105,7 @@ Game.prototype.initGame = function() {
                     break;
             }
             Game.applySettings();
+            this.blur();
         });
     }
 
@@ -124,14 +126,15 @@ Game.prototype.initGame = function() {
 
     });
 
-}
+};
+
 /* initPlayer method:
  *  - creates player instance
  *  - implements player movement
  *  - implements player character change
  */
 Game.prototype.initPlayer = function() {
-    this.player = new Player;
+    this.player = new Player();
 
     /* This listens for key presses and sends the keys to your
      * Player.handleInput() method. You don't need to modify this.
@@ -150,8 +153,8 @@ Game.prototype.initPlayer = function() {
     /* Function listens for click event on characters and performs main player change
      *
      */
-    for (i=0;i<this.playersList.length;i++) {
-        this.playersList[i].addEventListener("click"  , function(e) {
+    for (var i=0;i<this.playersList.length;i++) {
+        this.playersList[i].addEventListener("click"  , function() {
 
             // change player sprite to clicked character
             Game.player.sprite = this.querySelector("img").attributes.src.value;
@@ -161,7 +164,7 @@ Game.prototype.initPlayer = function() {
             this.className = "player-selected";
         });
     }
-}
+};
 
 
 /* initEnemies method:
@@ -171,10 +174,10 @@ Game.prototype.initPlayer = function() {
 Game.prototype.initEnemies = function() {
 
     //Fill enemies array with enemy instances
-    for (i=1; i <=this.numEnemies; i++) {
-        this.allEnemies.push(new Enemy);
+    for (var i=1; i <=this.numEnemies; i++) {
+        this.allEnemies.push(new Enemy());
     }
-}
+};
 
 
 /* initGems method:
@@ -184,10 +187,10 @@ Game.prototype.initEnemies = function() {
 Game.prototype.initGems = function() {
 
     //Fill gems array with gem instances;
-    for (i=1; i <=this.numGems; i++) {
-        this.allGems.push(new Gem);
+    for (var i=0; i <=this.numGems; i++) {
+        this.allGems.push(new Gem());
     }
-}
+};
 
 
 /* update method:
@@ -206,7 +209,7 @@ Game.prototype.initGems = function() {
             this.spdUp +=0.3;
         }
     }
- }
+ };
 
 
 /* applySettings method:
@@ -235,6 +238,7 @@ Game.prototype.applySettings = function() {
 
     //in case collect gems mode has been enabled, initiate Gems objects
     if (this.collectGems === "true") {
+        this.allGems = [];
         this.initGems();
     } else { //in case collect gems mode has been disabled, destroy Gems objects
         this.allGems = [];
@@ -250,7 +254,7 @@ Game.prototype.applySettings = function() {
         this.spdUp = 1;
     }
 
-}
+};
 
 /* updateEnemiesCount method:
  *  - manages enemies instances count ;
@@ -266,14 +270,14 @@ Game.prototype.updateEnemiesCount = function() {
 
     if (delta > 0) {
         for (i=1;i<=delta;i++) {
-            this.allEnemies.push(new Enemy);
+            this.allEnemies.push(new Enemy());
         }
     } else if (delta < 0) {
-        for (i=0;i>=delta;i--) {
+        for (var i=0;i>=delta;i--) {
             this.allEnemies.pop();
         }
     }
-}
+};
 
 /* checkEnemyBoundaries method:
  *  Checks whether enemy item goes off the edge of the canvas
@@ -284,7 +288,7 @@ Game.prototype.checkEnemyBoundaries = function(enemy) {
     if ( enemy.x > this.boundaries[2] ) {
         enemy.reset();
     }
-}
+};
 
 /* checkPlayerBoundaries method:
  *  - ensures that player stays within canvas;
@@ -292,20 +296,20 @@ Game.prototype.checkEnemyBoundaries = function(enemy) {
  *
  */
 Game.prototype.checkPlayerBoundaries = function(player) {
- 
+
     if ( player.x < this.boundaries[0] ) {
-        player.x = this.boundaries[0]
+        player.x = this.boundaries[0];
     } else if ( player.x > this.boundaries[2] - player.width ) {
         player.x = this.boundaries[2] - player.width;
     }
 
     if ( player.y < this.boundaries[1] ) {
-        player.y = this.boundaries[1]
+        player.y = this.boundaries[1];
     } else if ( player.y > this.boundaries[3] - player.height ) {
         player.y = this.boundaries[3] - player.height;
 
     }
-}
+};
 
 /* checkReachedWater method:
  *  - controls states when player reaches water;
@@ -318,7 +322,7 @@ Game.prototype.checkReachedWater = function(player) {
         this.scoreWithNoCollisions++;
         player.reset();
     }
-}
+};
 
 
 /* checkCollisions method:
@@ -329,11 +333,11 @@ Game.prototype.checkReachedWater = function(player) {
  */
 Game.prototype.checkCollisions = function(obj, isEnemy, isGem) {
     if (Math.abs(this.player.x - obj.x) < this.player.width/2 && Math.abs(this.player.y - obj.y) < 50) {
-        if (isEnemy == true) {
+        if (isEnemy === true) {
             this.scoreWithNoCollisions = 0;
             this.updateScore(-1);
             this.player.reset();
-        } else if (isGem == true) {
+        } else if (isGem === true) {
             console.log("gems collected");
             obj.destroy();
             this.gemsScore += 1;
@@ -341,7 +345,7 @@ Game.prototype.checkCollisions = function(obj, isEnemy, isGem) {
         }
 
     }
-}
+};
 
 
 /* updateScore method:
@@ -352,9 +356,9 @@ Game.prototype.checkCollisions = function(obj, isEnemy, isGem) {
 Game.prototype.updateScore = function(delta) {
 
     //Set score to 0 if it goes to negative
-    (this.gameScore + delta < 0 ) ? this.gameScore = 0 : this.gameScore += delta;
+    this.gameScore + delta < 0  ? this.gameScore = 0 : this.gameScore += delta;
     document.getElementById("gamescore").innerHTML = this.gameScore;
-}
+};
 
 /* updateGemScore method:
  *  - updates gems score
@@ -364,7 +368,7 @@ Game.prototype.updateScore = function(delta) {
 Game.prototype.updateGemScore = function() {
     //Set score to 0 if it goes to negative
     document.getElementById("gemsscore").innerHTML = this.gemsScore;
-}
+};
 
 /*********************************************************
  *              Game Object Definition END
@@ -387,7 +391,7 @@ Game.prototype.updateGemScore = function() {
     //Should be randomly generated within active board boundaries
     this.x = Math.floor((Math.random()*5))*101;
     this.y = Game.activeBoardYPaths[Math.floor((Math.random()*3))];
- }
+ };
 
 /* render method:
  *  - draws gems on canvas
@@ -395,8 +399,10 @@ Game.prototype.updateGemScore = function() {
  *
  */
  Gem.prototype.render = function() {
+
      ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
- }
+
+ };
 
 /* update method:
  *  - checks collisions;
@@ -410,7 +416,7 @@ Game.prototype.updateGemScore = function() {
     if (Game.allGems.length <=0) {
         Game.initGems();
     }
- }
+ };
 
  /* destroy method:
  *  - removes specific gem from the scene;
@@ -420,7 +426,7 @@ Game.prototype.updateGemScore = function() {
  Gem.prototype.destroy = function() {
     var index = Game.allGems.indexOf(this);
     Game.allGems.splice(index, 1);
- }
+ };
 
  /*********************************************************
  *              Gems Object Definition END
@@ -453,7 +459,7 @@ var Enemy = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
-}
+};
 
 
 /*  update method:
@@ -469,7 +475,7 @@ Enemy.prototype.update = function(dt) {
     Game.checkEnemyBoundaries(this);
     Game.checkCollisions(this, true, false);
 
-}
+};
 
 /* render method:
  *
@@ -478,7 +484,7 @@ Enemy.prototype.update = function(dt) {
  */
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
+};
 
 
 /* reset method:
@@ -490,7 +496,7 @@ Enemy.prototype.reset = function() {
     this.x      = Game.enemyPos[0];
     this.y      = Game.activeBoardYPaths[Math.floor(Math.random() * 3)];
     this.speed  = (Math.random()*2 + 1 )*Game.enemySpeed*Game.spdUp;
-}
+};
 
 /*********************************************************
  *              Enemy Object Definition END
@@ -519,7 +525,7 @@ var Player = function() {
     //player position coords
     this.x = Game.boundaries[2]/2 - this.width/2; //playerPos[0];
     this.y = Game.boundaries[3] - this.height;
-}
+};
 
 
 /* handleInput method:
@@ -542,7 +548,7 @@ Player.prototype.handleInput = function(key) {
             this.x += Game.playerXSpeed;
             break;
     }
-}
+};
 
 
 /* reset method:
@@ -553,7 +559,7 @@ Player.prototype.handleInput = function(key) {
 Player.prototype.reset = function() {
     this.x = Game.boundaries[2]/2 - this.width/2;
     this.y = Game.boundaries[3] - this.height;
-}
+};
 
 
 /* update method:
@@ -564,7 +570,7 @@ Player.prototype.reset = function() {
 Player.prototype.update = function() {
     Game.checkPlayerBoundaries(this);
     Game.checkReachedWater(this);
-}
+};
 
 
 /* render method:
@@ -574,7 +580,7 @@ Player.prototype.update = function() {
  */
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
+};
 /*********************************************************
  *              Player Object Definition END
  *********************************************************/
@@ -594,8 +600,6 @@ Game.initEnemies();
 if (Game.collectGems === "true") {
     Game.initGems();
 }
-
 /*********************************************************
  *              INIT END
  *********************************************************/
-

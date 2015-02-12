@@ -1,5 +1,10 @@
+<h2>Changes after evaluation</h2>
 
-<h1>frontend-nanodegree-arcade-game Project 3 </h1>
+* Added  code to remove focus from  radio inputs after click;
+* Fixed code quality issues found by jshint;
+
+
+<h2>frontend-nanodegree-arcade-game Project 3 </h2>
 
 <h3>Instructions</h3>
 
@@ -15,15 +20,15 @@
 <p><strong>Medium:</strong> 4 enemies, 120 px base speed </p>
 <p><strong>Are you nuts???:</strong> 5 enemies, 150 px base speed </p>
 
-<h5><i>Increase game difficulty<i></h5> 
+<h5><i>Increase game difficulty<i></h5>
 
 <p>To make things less boring, game can increase its difficulty as player reaches water particular times w/o collisions</p>
 <p>Limit of water reaches is hardcoded in game settings and is equal to 20</p>
 
 
-<h5><i>Collect Gems</i></h5> 
+<h5><i>Collect Gems</i></h5>
 
-<p>In this mode, game will generate specific number of gems (hardcoded) on the scene. Player can collect them , number of 
+<p>In this mode, game will generate specific number of gems (hardcoded) on the scene. Player can collect them , number of
 collected gems is recorded </p>
 
 <h4>Help</h4>
